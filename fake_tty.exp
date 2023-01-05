@@ -1,0 +1,5 @@
+#!/usr/bin/expect -f
+set cmd [lindex $argv 0];
+set timeout -1
+spawn $cmd
+expect eof

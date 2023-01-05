@@ -1,0 +1,44 @@
+From 661c24e7b14bb4dec9949b57147e97ad13498a88 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Patrik=20Dahlstr=C3=B6m?= <risca@dalakolonin.se>
+Date: Tue, 3 Jan 2023 18:42:43 +0100
+Subject: [PATCH] Fix repo version to v2.6
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This is the last version where python-2.7 is supported and which works with
+ubuntu-12.04. Encountered some bugs without the extra flags.
+
+Signed-off-by: Patrik Dahlström <risca@dalakolonin.se>
+---
+ bin/setup-repo.sh | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/bin/setup-repo.sh b/bin/setup-repo.sh
+index 86cba6e..2ccf921 100755
+--- a/bin/setup-repo.sh
++++ b/bin/setup-repo.sh
+@@ -8,9 +8,9 @@ fetch_repo() {
+     echo "----------------------------------------------------------------------------------------------"
+     echo "The repo tool will be installed in $cwd folder"
+     echo "----------------------------------------------------------------------------------------------"
+-    repoBinaryURL="http://commondatastorage.googleapis.com/git-repo-downloads/repo"
++    repoBinaryURL="https://gerrit.googlesource.com/git-repo/+/refs/tags/v2.6/repo?format=text"
+     check_status
+-    wget $repoBinaryURL -O $cwd/repo-temp
++    curl "$repoBinaryURL" | base64 -d > $cwd/repo-temp
+     check_status
+     #This is to avoid skipping if repo did not download due to proxy issue
+     mv $cwd/repo-temp $cwd/repo
+@@ -21,7 +21,7 @@ fetch_repo() {
+     echo "Successfully extracted the repo tool to $cwd"
+     echo "Proceeding with repo init -u git://git.ti.com/glsdk/release-manifest.git"
+     echo " "
+-    repo init -u git://git.ti.com/glsdk/release-manifest.git -m omap5-uevm_6_03_00_01.xml --no-repo-verify
++    repo init --no-clone-bundle --repo-rev=v2.6 -u git://git.ti.com/glsdk/release-manifest.git -m omap5-uevm_6_03_00_01.xml --no-repo-verify
+     check_status
+     echo
+ }
+-- 
+2.25.1
+

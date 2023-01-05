@@ -1,0 +1,111 @@
+From 1204041a00e22a49508a16bae837d12b839e2e43 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Patrik=20Dahlstr=C3=B6m?= <risca@dalakolonin.se>
+Date: Wed, 4 Jan 2023 02:31:13 +0100
+Subject: [PATCH] Remove yocto setup patches
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Changes are merged upstream.
+
+Signed-off-by: Patrik Dahlström <risca@dalakolonin.se>
+---
+ bin/setup-yocto.sh                            |  3 --
+ ...figs-Config-for-the-GLSDK-6.03.00.01.patch | 32 -------------------
+ ...ock-down-the-configs-for-06.02.01.02.patch | 31 ------------------
+ 3 files changed, 66 deletions(-)
+ delete mode 100644 patches/0001-configs-Config-for-the-GLSDK-6.03.00.01.patch
+ delete mode 100644 patches/0001-configs-Lock-down-the-configs-for-06.02.01.02.patch
+
+diff --git a/bin/setup-yocto.sh b/bin/setup-yocto.sh
+index 2de30d2..2225a8a 100755
+--- a/bin/setup-yocto.sh
++++ b/bin/setup-yocto.sh
+@@ -18,9 +18,6 @@ cp bin/build-core-sdk.sh yocto-layers
+ echo "[GLSDK]> cd yocto-layers"
+ cd yocto-layers
+ 
+-echo ["GLSDK]>  git am ../patches/*.patch "
+-git am ../patches/*.patch 
+-
+ echo "[GLSDK]> ./oe-layertool-setup.sh -f configs/glsdk/glsdk-06.03.00.01-config.txt"
+ ./oe-layertool-setup.sh -f configs/glsdk/glsdk-06.03.00.01-config.txt
+ 
+diff --git a/patches/0001-configs-Config-for-the-GLSDK-6.03.00.01.patch b/patches/0001-configs-Config-for-the-GLSDK-6.03.00.01.patch
+deleted file mode 100644
+index 39b2730..0000000
+--- a/patches/0001-configs-Config-for-the-GLSDK-6.03.00.01.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 2facb0b0938c2bb2e066fda4a94e69ba13479050 Mon Sep 17 00:00:00 2001
+-From: Mrinmayee Hingolikar <mrinmayee@ti.com>
+-Date: Thu, 19 Dec 2013 18:08:31 +0530
+-Subject: [PATCH] configs: Config for the GLSDK 6.03.00.01
+-
+-Signed-off-by: Mrinmayee Hingolikar <mrinmayee@ti.com>
+----
+- configs/glsdk/glsdk-06.03.00.01-config.txt |   12 ++++++++++++
+- 1 files changed, 12 insertions(+), 0 deletions(-)
+- create mode 100644 configs/glsdk/glsdk-06.03.00.01-config.txt
+-
+-diff --git a/configs/glsdk/glsdk-06.03.00.01-config.txt b/configs/glsdk/glsdk-06.03.00.01-config.txt
+-new file mode 100644
+-index 0000000..7c46c3b
+---- /dev/null
+-+++ b/configs/glsdk/glsdk-06.03.00.01-config.txt
+-@@ -0,0 +1,12 @@
+-+# This file takes repo entries in the format
+-+# repo name,repo uri,repo branch,repo commit[,layers=layer1:layer2...:layern]
+-+
+-+bitbake,git://git.openembedded.org/bitbake,master,bbb4fa427739912ff3b87379bf629066f6662458,layers=
+-+meta-arago,git://arago-project.org/git/projects/meta-arago-glsdk.git,master,HEAD,layers=meta-arago-distro:meta-arago-extras
+-+meta-qt5,git://github.com/meta-qt5/meta-qt5.git,master,HEAD,layers=
+-+meta-openembedded,git://git.openembedded.org/meta-openembedded,dylan,HEAD,layers=toolchain-layer:meta-networking:meta-ruby:meta-oe
+-+meta-ti,git://arago-project.org/git/projects/meta-ti-glsdk.git,dylan,HEAD,layers=
+-+meta-linaro,git://git.linaro.org/openembedded/meta-linaro.git,dylan,HEAD,layers=meta-linaro-toolchain
+-+oe-core,git://git.openembedded.org/openembedded-core,dylan,HEAD,layers=meta
+-+OECORELAYERCONF=./sample-files/bblayers.conf.sample
+-+OECORELOCALCONF=./sample-files/local-arago.conf.sample
+--- 
+-1.7.0.4
+-
+diff --git a/patches/0001-configs-Lock-down-the-configs-for-06.02.01.02.patch b/patches/0001-configs-Lock-down-the-configs-for-06.02.01.02.patch
+deleted file mode 100644
+index 04ec4a3..0000000
+--- a/patches/0001-configs-Lock-down-the-configs-for-06.02.01.02.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-From 240614ed4d95ca530a7ab3d1c1e789fb9a136c38 Mon Sep 17 00:00:00 2001
+-From: Mrinmayee Hingolikar <mrinmayee@ti.com>
+-Date: Fri, 11 Oct 2013 15:08:04 +0530
+-Subject: [PATCH] configs: Lock down the configs for 06.02.01.02
+-
+-Signed-off-by: Mrinmayee Hingolikar <mrinmayee@ti.com>
+----
+- configs/glsdk/glsdk-06.02.01.02-config.txt |   11 +++++++++++
+- 1 files changed, 11 insertions(+), 0 deletions(-)
+- create mode 100644 configs/glsdk/glsdk-06.02.01.02-config.txt
+-
+-diff --git a/configs/glsdk/glsdk-06.02.01.02-config.txt b/configs/glsdk/glsdk-06.02.01.02-config.txt
+-new file mode 100644
+-index 0000000..52a4229
+---- /dev/null
+-+++ b/configs/glsdk/glsdk-06.02.01.02-config.txt
+-@@ -0,0 +1,11 @@
+-+# This file takes repo entries in the format
+-+# repo name,repo uri,repo branch,repo commit[,layers=layer1:layer2...:layern]
+-+
+-+bitbake,git://git.openembedded.org/bitbake,master,1.17.0,layers=
+-+meta-arago,git://arago-project.org/git/projects/meta-arago-glsdk.git,danny,DEV_SDK_06_02_01_02,layers=meta-arago-distro:meta-arago-extras
+-+meta-openembedded,git://git.openembedded.org/meta-openembedded,danny,f00028caf257e386c0f3ae46bd4b3ba53dd0729d,layers=toolchain-layer:meta-oe
+-+meta-ti,git://arago-project.org/git/projects/meta-ti-glsdk.git,danny,DEV_SDK_06_02_01_02,layers=
+-+meta-linaro,git://git.linaro.org/openembedded/meta-linaro.git,danny,d0558fa4304592622423582f8b464e1c22cfe6f1,layers=
+-+oe-core,git://git.openembedded.org/openembedded-core,danny,0785489d558c34cacf5cb349949a15e27084efbf,layers=meta
+-+OECORELAYERCONF=./sample-files/bblayers.conf.sample
+-+OECORELOCALCONF=./sample-files/local-glsdk.conf.sample
+--- 
+-1.7.0.4
+-
+-- 
+2.25.1
+
